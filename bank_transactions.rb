@@ -3,37 +3,52 @@ class BankAccount
   def initialize(balance)
     @balance = balance
   end
-  
+
   def balance
-    p "Your current balance is "
-    balance = gets.chomp
-    @balance = balance.to_i
-    p "What would you like to do? (deposit, withdraw, check_balance)"
-    @operation = gets.chomp
+    p "Your current balance is #{@balance}"
+    # p "What would you like to do? (deposit, withdraw, check_balance)"
+    # @operation = gets.chomp
   end
 
   def deposit
-    if(@operation == "deposit")
-        p "How much would you like to deposit?"
-        deposit = gets.chomp
-        @deposit = deposit.to_i
-        p "Your current balance is #{@balance + @deposit}"
+    p "How much would you like to deposit?"
+    deposit = gets.chomp
+    @deposit = deposit.to_i
+    @balance += @deposit
+    p "Your current balance is #{@balance}"
   end
 
   def withdraw
-    if(@operation == "withdraw")
-      p "How much would you like to withdraw?"
-      withdraw = gets.chomp
-      @withdraw = withdraw.to_i
-      p "Your current balance is #{@balance - @withdraw}"
-  end
-
-  def balance
-  if(operation == "check_balance")
+    p "How much would you like to withdraw?"
+    withdraw = gets.chomp
+    @withdraw = withdraw.to_i
+    @balance -= @withdraw
     p "Your current balance is #{@balance}"
   end
-  p "Are you done?"
-  status = gets.chomp
-  p "Thank you!" if status == "yes"
+
+  def show
+    balance
+
+    loop do
+      p "What would you like to do? (deposit, withdraw, check_balance)"
+      operation = gets.chomp
+
+      withdraw if operation == "withdraw"
+      deposit if operation == "deposit"
+
+      p "Are you done?"
+      status = gets.chomp
+
+      if status == "yes"
+        p "Thank you!"
+        break
+      else
+        show
+      end
+    end
   end
+
 end
+
+xavier_account = BankAccount.new(1000000)
+xavier_account.show
